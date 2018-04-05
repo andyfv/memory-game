@@ -2,7 +2,7 @@
  * Create a list that holds all of your cards
  */
 
-let deck = ['diamond', 'diamond', 'leaf', 'leaf', 'paper-plane', 'paper-plane', 'anchor', 'anchor',
+let virtualDeck = ['diamond', 'diamond', 'leaf', 'leaf', 'paper-plane', 'paper-plane', 'anchor', 'anchor',
             'bolt', 'bolt', 'cube', 'cube', 'bicycle', 'bicycle', 'bomb', 'bomb'];
 
 
@@ -57,6 +57,7 @@ function clickCard(e){
         let card = e.target;    
         let cardIndex = getElementIndex(card);
         console.log(card);
+
     }
 }
 
