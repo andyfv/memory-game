@@ -2,9 +2,9 @@
  * Create a list that holds all of your cards
  */
 
+const deck = document.getElementsByClassName('deck')[0];
 let virtualDeck = ['diamond', 'diamond', 'leaf', 'leaf', 'paper-plane', 'paper-plane', 'anchor', 'anchor',
             'bolt', 'bolt', 'cube', 'cube', 'bicycle', 'bicycle', 'bomb', 'bomb'];
-
 
 
 
@@ -61,4 +61,4 @@ function clickCard(e){
     }
 }
 
-document.getElementsByClassName('deck')[0].addEventListener('click', clickCard);
+deck.addEventListener('click', clickCard);
