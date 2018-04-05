@@ -2,8 +2,10 @@
  * Create a list that holds all of your cards
  */
 
- let deck = ['diamond', 'diamond', 'leaf', 'leaf', 'paper-plane', 'paper-plane', 'anchor', 'anchor',
+let deck = ['diamond', 'diamond', 'leaf', 'leaf', 'paper-plane', 'paper-plane', 'anchor', 'anchor',
             'bolt', 'bolt', 'cube', 'cube', 'bicycle', 'bicycle', 'bomb', 'bomb'];
+
+
 
 
 /*
@@ -39,3 +41,14 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+function getElementIndex(element){
+    return [...element.parentNode.children].indexOf(element);
+}
+
+function clickCard(e){
+    let card = e.target;
+    let cardIndex = getElementIndex(card);
+}
+
+ document.getElementsByClassName('deck')[0].addEventListener('click', clickCard);
