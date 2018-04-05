@@ -42,13 +42,22 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
+/* 
+    Used to return the index of each clicked card  
+ */
 function getElementIndex(element){
     return [...element.parentNode.children].indexOf(element);
 }
 
+/* 
+    Used as the function in the Event Listener for the deck
+ */
 function clickCard(e){
-    let card = e.target;
-    let cardIndex = getElementIndex(card);
+    if(e.target.className === "card"){
+        let card = e.target;    
+        let cardIndex = getElementIndex(card);
+        console.log(card);
+    }
 }
 
- document.getElementsByClassName('deck')[0].addEventListener('click', clickCard);
+document.getElementsByClassName('deck')[0].addEventListener('click', clickCard);
