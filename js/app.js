@@ -2,9 +2,11 @@
  * Create a list that holds all of your cards
  */
 
+
+
 const deck = document.getElementsByClassName('deck')[0];
-let virtualDeck = ['diamond', 'diamond', 'leaf', 'leaf', 'paper-plane', 'paper-plane', 'anchor', 'anchor',
-            'bolt', 'bolt', 'cube', 'cube', 'bicycle', 'bicycle', 'bomb', 'bomb'];
+let virtualDeck = ['fa-diamond', 'fa-diamond', 'fa-leaf', 'fa-leaf', 'fa-paper-plane-o', 'fa-paper-plane-o', 'fa-anchor', 'fa-anchor',
+            'fa-bolt', 'fa-bolt', 'fa-cube', 'fa-cube', 'fa-bicycle', 'fa-bicycle', 'fa-bomb', 'fa-bomb'];
 
 
 
@@ -53,12 +55,14 @@ function getElementIndex(element){
     Used as the function in the Event Listener for the deck
  */
 function clickCard(e){
+    //deck.removeEventListener('click',clickCard);
     if(e.target.className === "card"){
         let card = e.target;    
         let cardIndex = getElementIndex(card);
         console.log(card);
-
+        //let pair = new Array(2);
     }
 }
 
 deck.addEventListener('click', clickCard);
+
