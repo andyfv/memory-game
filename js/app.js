@@ -59,9 +59,10 @@ function getElementIndex(element){
 function clickCard(e){
     //deck.removeEventListener('click',clickCard);
     if(e.target.className === "card"){
-        let card = e.target;    
+        let card = e.target;   
         let cardIndex = getElementIndex(card);
-        console.log(card);
+        let cardSymbol = card.firstElementChild; 
+        console.log(cardSymbol);
         //let pair = new Array(2);
     }
 }
