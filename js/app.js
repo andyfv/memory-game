@@ -46,6 +46,15 @@ function shuffle(virtualDeck) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
+
+function isOpen(card){
+    if(card.classList.contains("open") || card.classList.contains("match")){
+        return true;
+    } else {
+        return false;
+    }
+}
+
 /* 
     Used to return the index of each clicked card  
  */
@@ -64,7 +73,7 @@ function clickCard(e){
         let cardSymbol = card.firstElementChild; 
         // card.classList.toggle("open");
         // card.classList.toggle("show");
-        console.log(cardSymbol);
+        console.log(card.classList.contains("show"));
         //let pair = new Array(2);
     }
 }
