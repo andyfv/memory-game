@@ -58,10 +58,12 @@ function getElementIndex(element){
  */
 function clickCard(e){
     //deck.removeEventListener('click',clickCard);
-    if(e.target.className === "card"){
+    if(e.target.classList.contains("card")){
         let card = e.target;   
         let cardIndex = getElementIndex(card);
         let cardSymbol = card.firstElementChild; 
+        // card.classList.toggle("open");
+        // card.classList.toggle("show");
         console.log(cardSymbol);
         //let pair = new Array(2);
     }
