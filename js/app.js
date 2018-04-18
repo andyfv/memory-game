@@ -7,7 +7,28 @@
 const deck = document.getElementsByClassName('deck')[0];
 let virtualDeck = ['fa-diamond', 'fa-diamond', 'fa-leaf', 'fa-leaf', 'fa-paper-plane-o', 'fa-paper-plane-o', 'fa-anchor', 'fa-anchor',
             'fa-bolt', 'fa-bolt', 'fa-cube', 'fa-cube', 'fa-bicycle', 'fa-bicycle', 'fa-bomb', 'fa-bomb'];
+let pair = {
+    firstCard: null,
+    secondCard: null,
+    isEmpty: function(){
+        if(this.firstCard === null) {
+            return true;
+        } else {
+            return false;
+        }
+    },
+    areSymbolsEqual: function() {
+        if(returnSymbol(this.firstCard) === returnSymbol(this.secondCard)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
 
+let game = {
+
+}
 
 
 /*
@@ -28,7 +49,6 @@ function shuffle(virtualDeck) {
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
     }
-
     return virtualDeck;
 }
 
@@ -46,6 +66,40 @@ function shuffle(virtualDeck) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
+function updateCardClasses(updatedCard){
+    updatedCard.classList.add("card" , "open", "show");
+}
+
+function addSymbol(updatedCard, cardIndex){
+    const symbolElement = document.createElement("i");
+    symbolElement.classList.add("fa", virtualDeck[cardIndex]);
+    updatedCard.appendChild(symbolElement);
+    console.log(updatedCard);
+}
+
+function showCard(card, updatedCard){
+    deck.appendChild(updatedCard);
+    deck.replaceChild(updatedCard, card);
+}
+
+function returnSymbol(card) {
+    return card.firstElementChild.className;
+}
+
+function progress(card){
+    let cardIndex = getElementIndex(card);
+    const updatedCard = document.createElement("li");
+    addSymbol(updatedCard, cardIndex);
+    updateCardClasses(updatedCard);
+    showCard(card, updatedCard);
+    if(pair.isEmpty()){
+        pair.firstCard = updatedCard;
+        return;
+    } else {
+        pair.secondCard = updatedCard;
+        handlePair();
+    }
+} 
 
 function isOpen(card){
     if(card.classList.contains("open") || card.classList.contains("match")){
@@ -67,13 +121,16 @@ function getElementIndex(element){
  */
 function clickCard(e){
     //deck.removeEventListener('click',clickCard);
+    e.stopPropagation();
     if(e.target.classList.contains("card")){
-        let card = e.target;   
-        let cardIndex = getElementIndex(card);
-        let cardSymbol = card.firstElementChild; 
+        let card = e.target;    
+        if(isOpen(card)){
+            return;
+        } else {
+            progress(card);
+        }
         // card.classList.toggle("open");
         // card.classList.toggle("show");
-        console.log(card.classList.contains("show"));
         //let pair = new Array(2);
     }
 }
