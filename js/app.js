@@ -153,7 +153,6 @@ function getElementIndex(element){
     Used as the function in the Event Listener for the deck
  */
 function clickCard(e){
-    //deck.removeEventListener('click',clickCard);
     e.stopPropagation();
     if(e.target.classList.contains("card")){
         let card = e.target;    
@@ -162,9 +161,6 @@ function clickCard(e){
         } else {
             progress(card);
         }
-        // card.classList.toggle("open");
-        // card.classList.toggle("show");
-        //let pair = new Array(2);
     }
 }
 
