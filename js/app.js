@@ -23,11 +23,35 @@ let pair = {
         } else {
             return false;
         }
+    },
+    flipPairUp: function(){
+        removeCardClasses(this.firstCard, "open", "show");
+        addCardClasses(this.firstCard,"match");
+        removeCardClasses(this.secondCard, "open", "show");
+        addCardClasses(this.secondCard, "match");
+        this.resetPair();
+    },
+    resetPair: function() {
+        this.firstCard = null;
+        this.secondCard = null; 
+    },
+    flipPairDown: function() {
+        removeCardClasses(this.firstCard, "open", "show");
+        removeCardClasses(this.secondCard, "open", "show");
     }
 }
 
 let game = {
-
+    pairHandler: function() {
+        if(pair.areSymbolsEqual()){
+            pair.flipPairUp();
+        } else {
+            setTimeout(function(){
+                pair.flipPairDown()
+                pair.resetPair();
+            },1000);
+        }
+    }
 }
 
 
@@ -66,15 +90,23 @@ function shuffle(virtualDeck) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
-function updateCardClasses(updatedCard){
-    updatedCard.classList.add("card" , "open", "show");
+
+function removeCardClasses(card, ...classes) {
+    for(let eachClass of classes) {
+        card.classList.remove(eachClass);
+    }
+}
+
+function addCardClasses(card, ...classes){
+    for(let eachClass of classes) {
+        card.classList.add(eachClass);
+    }
 }
 
 function addSymbol(updatedCard, cardIndex){
     const symbolElement = document.createElement("i");
     symbolElement.classList.add("fa", virtualDeck[cardIndex]);
     updatedCard.appendChild(symbolElement);
-    console.log(updatedCard);
 }
 
 function showCard(card, updatedCard){
@@ -87,17 +119,18 @@ function returnSymbol(card) {
 }
 
 function progress(card){
-    let cardIndex = getElementIndex(card);
+    const cardIndex = getElementIndex(card);
     const updatedCard = document.createElement("li");
+    updatedCard.classList.add("card");
     addSymbol(updatedCard, cardIndex);
-    updateCardClasses(updatedCard);
+    addCardClasses(updatedCard, "open", "show");
     showCard(card, updatedCard);
     if(pair.isEmpty()){
         pair.firstCard = updatedCard;
         return;
     } else {
         pair.secondCard = updatedCard;
-        handlePair();
+        game.pairHandler();
     }
 } 
 
@@ -136,4 +169,3 @@ function clickCard(e){
 }
 
 deck.addEventListener('click', clickCard);
-
