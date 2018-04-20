@@ -24,6 +24,7 @@ let pair = {
             return false;
         }
     },
+    //Improve removeCardClasses and addCardClasses functions to accept more than one card
     flipPairUp: function(){
         removeCardClasses(this.firstCard, "open", "show");
         addCardClasses(this.firstCard,"match");
@@ -42,6 +43,7 @@ let pair = {
 }
 
 let game = {
+    moves: 0,
     pairHandler: function() {
         if(pair.areSymbolsEqual()){
             pair.flipPairUp();
@@ -51,6 +53,15 @@ let game = {
                 pair.resetPair();
             },1000);
         }
+    }
+}
+
+let stats = {
+    stopWatch: 0,
+    moveCounter: 0,
+    Rating: 0,
+    startWatch: function() {
+        
     }
 }
 
