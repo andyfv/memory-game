@@ -86,7 +86,7 @@ h1 {
  */
 
 .score-panel {
-    text-align: left;
+    text-align: justify;
     width: 345px;
     margin-bottom: 10px;
 }
@@ -104,6 +104,17 @@ h1 {
 }
 
 .score-panel .start-restart {
-    float: right;
     cursor: pointer;
+}
+
+.start-restart,
+.stopwatch,
+.move-counter {
+    display: inline-block;
+}
+
+.start-restart {
+    float: right;
+    font-size: 1.1rem;
+    border-radius: 1rem;
 }
