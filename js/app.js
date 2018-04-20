@@ -3,7 +3,7 @@
  */
 
 
-
+const moves = document.getElementsByClassName('moves');
 const deck = document.getElementsByClassName('deck')[0];
 let virtualDeck = ['fa-diamond', 'fa-diamond', 'fa-leaf', 'fa-leaf', 'fa-paper-plane-o', 'fa-paper-plane-o', 'fa-anchor', 'fa-anchor',
             'fa-bolt', 'fa-bolt', 'fa-cube', 'fa-cube', 'fa-bicycle', 'fa-bicycle', 'fa-bomb', 'fa-bomb'];
@@ -164,4 +164,7 @@ function clickCard(e){
     }
 }
 
-deck.addEventListener('click', clickCard);
+window.onload = function(){ 
+    deck.addEventListener('click', clickCard);
+
+}
