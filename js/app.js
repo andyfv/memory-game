@@ -2,7 +2,11 @@
  * Create a list that holds all of your cards
  */
 
-
+const btnStartAndRestart = document.getElementsByClassName("start-restart")[0];
+const btnStartAndRestartText = document.getElementsByClassName('start-text')[0];
+const btnRestartSymbol = document.createElement('i');
+btnRestartSymbol.classList.add('fa', 'fa-repeat');
+const moveCounterDIV = document.getElementsByClassName('move-counter');
 const moves = document.getElementsByClassName('moves');
 const deck = document.getElementsByClassName('deck')[0];
 let virtualDeck = ['fa-diamond', 'fa-diamond', 'fa-leaf', 'fa-leaf', 'fa-paper-plane-o', 'fa-paper-plane-o', 'fa-anchor', 'fa-anchor',
@@ -43,6 +47,7 @@ let pair = {
 }
 
 let game = {
+    inProgress: false,
     moves: 0,
     pairHandler: function() {
         if(pair.areSymbolsEqual()){
@@ -53,17 +58,28 @@ let game = {
                 pair.resetPair();
             },1000);
         }
+    },
+    btnSwitchText: function() {
+        if(!this.inProgress){
+            btnStartAndRestartText.innerText = "Restart";
+            btnStartAndRestart.insertBefore(btnRestartSymbol,btnStartAndRestartText);
+            this.inProgress = true;
+        } else {
+            btnStartAndRestartText.innerText = "Start";
+            btnStartAndRestart.removeChild(btnRestartSymbol);
+            this.inProgress = false;
+        }
     }
 }
 
 let stats = {
-    stopWatch: 0,
     moveCounter: 0,
     Rating: 0,
     startWatch: function() {
         
     }
 }
+
 
 
 /*
@@ -75,16 +91,15 @@ let stats = {
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(virtualDeck) {
-    let currentIndex = array.length, temporaryValue, randomIndex;
+    let currentIndex = virtualDeck.length, temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
+        temporaryValue = virtualDeck[currentIndex];
+        virtualDeck[currentIndex] = virtualDeck[randomIndex];
+        virtualDeck[randomIndex] = temporaryValue;
     }
-    return virtualDeck;
 }
 
 
@@ -175,7 +190,12 @@ function clickCard(e){
     }
 }
 
-window.onload = function(){ 
+function clickButton(e) {
+    e.stopPropagation();
     deck.addEventListener('click', clickCard);
-
+    //startCountdown(); //Implement!!!
+    shuffle(virtualDeck);
+    game.btnSwitchText();
 }
+
+btnStartAndRestart.addEventListener('click', clickButton);

@@ -118,3 +118,7 @@ h1 {
     font-size: 1.1rem;
     border-radius: 1rem;
 }
+
+.fa-repeat {
+    padding-right: 5px;
+}
