@@ -86,7 +86,6 @@ h1 {
  */
 
 .score-panel {
-    text-align: justify;
     width: 400px;
     margin-bottom: 10px;
     display: flex;
@@ -110,20 +109,34 @@ h1 {
 }
 
 .start-restart,
-.stopwatch,
+.stopwatch-container,
 .move-counter {
     display: inline-block;
+    font-size: 1.1rem;
 }
 
 .start-restart {
     float: right;
-    font-size: 1.1rem;
     border-radius: 1rem;
     border: 0px ;
     background-color: limegreen;
+    width: 25%;
+    padding-top: 3px;
 }
 
 .fa-repeat {
     padding-right: 5px;
-    
+}
+
+.stars {
+    width: 15%;
+}
+
+.move-counter {
+    float: left;
+    align-self: flex-start;
+}
+
+.stopwatch-container {
+    width: 20%;
 }
