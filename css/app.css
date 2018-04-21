@@ -117,8 +117,11 @@ h1 {
     float: right;
     font-size: 1.1rem;
     border-radius: 1rem;
+    border: 0px ;
+    background-color: limegreen;
 }
 
 .fa-repeat {
     padding-right: 5px;
+    
 }
