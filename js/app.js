@@ -1,16 +1,19 @@
 /*
  * Create a list that holds all of your cards
  */
-
+const stopwatch = document.getElementById('stopwatch');
 const btnStartAndRestart = document.getElementsByClassName("start-restart")[0];
 const btnStartAndRestartText = document.getElementsByClassName('start-text')[0];
 const btnRestartSymbol = document.createElement('i');
 btnRestartSymbol.classList.add('fa', 'fa-repeat');
-const moveCounterDIV = document.getElementsByClassName('move-counter');
+const moveContainer = document.getElementById('move-container');
 const moves = document.getElementsByClassName('moves');
 const deck = document.getElementsByClassName('deck')[0];
 let virtualDeck = ['fa-diamond', 'fa-diamond', 'fa-leaf', 'fa-leaf', 'fa-paper-plane-o', 'fa-paper-plane-o', 'fa-anchor', 'fa-anchor',
             'fa-bolt', 'fa-bolt', 'fa-cube', 'fa-cube', 'fa-bicycle', 'fa-bicycle', 'fa-bomb', 'fa-bomb'];
+const watch  = new Stopwatch(stopwatch);
+
+
 let pair = {
     firstCard: null,
     secondCard: null,
@@ -52,10 +55,12 @@ let game = {
     pairHandler: function() {
         if(pair.areSymbolsEqual()){
             pair.flipPairUp();
+            deck.addEventListener('click', clickCard);
         } else {
             setTimeout(function(){
-                pair.flipPairDown()
+                pair.flipPairDown();
                 pair.resetPair();
+                deck.addEventListener('click', clickCard);
             },1000);
         }
     },
@@ -69,7 +74,7 @@ let game = {
             btnStartAndRestart.removeChild(btnRestartSymbol);
             this.inProgress = false;
         }
-    }
+    },
 }
 
 let stats = {
@@ -153,6 +158,7 @@ function progress(card){
     showCard(card, updatedCard);
     if(pair.isEmpty()){
         pair.firstCard = updatedCard;
+        deck.addEventListener('click', clickCard);
         return;
     } else {
         pair.secondCard = updatedCard;
@@ -181,8 +187,10 @@ function getElementIndex(element){
 function clickCard(e){
     e.stopPropagation();
     if(e.target.classList.contains("card")){
+        deck.removeEventListener('click', clickCard);
         let card = e.target;    
         if(isOpen(card)){
+            deck.addEventListener('click', clickCard);
             return;
         } else {
             progress(card);
@@ -190,12 +198,13 @@ function clickCard(e){
     }
 }
 
-function clickButton(e) {
+function clickStart(e) {
     e.stopPropagation();
+    shuffle(virtualDeck);
     deck.addEventListener('click', clickCard);
     //startCountdown(); //Implement!!!
-    shuffle(virtualDeck);
+    watch.start();
     game.btnSwitchText();
 }
 
-btnStartAndRestart.addEventListener('click', clickButton);
+btnStartAndRestart.addEventListener('click', clickStart);
