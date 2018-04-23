@@ -104,18 +104,18 @@ h1 {
     display: inline-block;
 }
 
-.score-panel .start-restart {
+.score-panel {
     cursor: pointer;
 }
 
-.start-restart,
+#start-restart,
 .stopwatch-container,
 .move-container {
     display: inline-block;
     font-size: 1.1rem;
 }
 
-.start-restart {
+#start-restart {
     float: right;
     border-radius: 1rem;
     border: 1px solid black;
