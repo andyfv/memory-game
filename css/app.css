@@ -86,10 +86,10 @@ h1 {
  */
 
 .score-panel {
-    width: 400px;
+    width: 600px;
     margin-bottom: 10px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .score-panel .stars {
@@ -118,10 +118,11 @@ h1 {
 .start-restart {
     float: right;
     border-radius: 1rem;
-    border: 0px ;
-    background-color: limegreen;
-    width: 21%;
+    border: 1px solid black;
+    width: 18%;
     padding-top: 3px;
+    font-weight: bold; 
+    background-color: limegreen;
 }
 
 .fa-repeat {
@@ -129,14 +130,17 @@ h1 {
 }
 
 .stars {
-    width: 15%;
+    width: 10%;
 }
 
 .move-container {
     float: left;
-    align-self: flex-start;
+    width:20%;
 }
 
-.stopwatch-container {
+#stopwatch {
     width: 20%;
+    font-family: monospace; 
+    font-style: normal;
+    font-size: 1.4em;
 }
