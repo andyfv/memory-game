@@ -31,27 +31,24 @@ let pair = {
             return false;
         }
     },
-    //Improve removeCardClasses and addCardClasses functions to accept more than one card
+    resetPair: function() {
+        this.firstCard = this.secondCard = null;
+    },
     flipPairUp: function(){
-        removeCardClasses(this.firstCard, "open", "show");
-        addCardClasses(this.firstCard,"match");
-        removeCardClasses(this.secondCard, "open", "show");
-        addCardClasses(this.secondCard, "match");
+        removeCardClasses([this.firstCard, this.secondCard], ["open", "show"]);
+        addCardClasses([this.firstCard, this.secondCard],["match"]);
         this.resetPair();
     },
-    resetPair: function() {
-        this.firstCard = null;
-        this.secondCard = null; 
-    },
     flipPairDown: function() {
-        removeCardClasses(this.firstCard, "open", "show");
-        removeCardClasses(this.secondCard, "open", "show");
+        removeCardClasses([this.firstCard ,this.secondCard], ["open", "show"]);
+        this.resetPair();
     }
 }
 
 let game = {
     inProgress: false,
     moves: 0,
+    openedCards: 0,
     pairHandler: function() {
         if(pair.areSymbolsEqual()){
             pair.flipPairUp();
@@ -59,7 +56,6 @@ let game = {
         } else {
             setTimeout(function(){
                 pair.flipPairDown();
-                pair.resetPair();
                 deck.addEventListener('click', clickCard);
             },1000);
         }
@@ -122,15 +118,19 @@ function shuffle(virtualDeck) {
  */
 
 
-function removeCardClasses(card, ...classes) {
-    for(let eachClass of classes) {
-        card.classList.remove(eachClass);
+function removeCardClasses([...cards], [...classes]) {
+    for (let card of cards) {
+        for(let eachClass of classes) {
+            card.classList.remove(eachClass);
+        }
     }
 }
 
-function addCardClasses(card, ...classes){
-    for(let eachClass of classes) {
-        card.classList.add(eachClass);
+function addCardClasses([...cards], [...classes]){
+    for (let card of cards) {
+        for(let eachClass of classes) {
+            card.classList.add(eachClass);
+        }
     }
 }
 
@@ -154,7 +154,7 @@ function progress(card){
     const updatedCard = document.createElement("li");
     updatedCard.classList.add("card");
     addSymbol(updatedCard, cardIndex);
-    addCardClasses(updatedCard, "open", "show");
+    addCardClasses([updatedCard], ["open", "show"]);
     showCard(card, updatedCard);
     if(pair.isEmpty()){
         pair.firstCard = updatedCard;
