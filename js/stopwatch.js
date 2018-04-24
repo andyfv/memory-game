@@ -1,11 +1,11 @@
 function Stopwatch(elem) {
     let time = 0;
-    let interval, offset;
+    let interval, offset, formattedTime;
     this.isOn = false;
 
     function update(){
         time += delta();
-        let formattedTime  = timeFormatter(time);
+        formattedTime  = timeFormatter(time);
         elem.textContent = formattedTime;
     };
 
@@ -28,7 +28,9 @@ function Stopwatch(elem) {
         return minutes + ":" + seconds + ":" + milliseconds;
     };
 
-
+    this.returnTime = function() {
+        return formattedTime;
+    }
 
     this.start = function() {
         if(!this.isOn) {
