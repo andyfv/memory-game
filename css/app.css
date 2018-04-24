@@ -144,3 +144,7 @@ h1 {
     font-style: normal;
     font-size: 1.4em;
 }
+
+.fa-star {
+    color: limegreen;
+}

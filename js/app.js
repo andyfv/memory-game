@@ -8,11 +8,12 @@ const btnRestartSymbol = document.createElement('i');
 btnRestartSymbol.classList.add('fa', 'fa-repeat');
 const moveContainer = document.getElementById('move-container');
 const moves = document.getElementsByClassName('moves')[0];
-const deck = document.getElementsByClassName('deck')[0];
 let virtualDeck = ['fa-diamond', 'fa-diamond', 'fa-leaf', 'fa-leaf', 'fa-paper-plane-o', 'fa-paper-plane-o', 'fa-anchor', 'fa-anchor',
-            'fa-bolt', 'fa-bolt', 'fa-cube', 'fa-cube', 'fa-bicycle', 'fa-bicycle', 'fa-bomb', 'fa-bomb'];
+'fa-bolt', 'fa-bolt', 'fa-cube', 'fa-cube', 'fa-bicycle', 'fa-bicycle', 'fa-bomb', 'fa-bomb'];
+let deck = document.getElementsByClassName('deck')[0];
+const initialDeck = deck.cloneNode(true);
+const deckContainer = document.getElementsByClassName('container')[0];
 const watch  = new Stopwatch(stopwatch);
-
 
 let pair = {
     firstCard: null,
@@ -77,21 +78,27 @@ let game = {
         moves.innerText = this.moves;
     },
     increaseOpenedCards: function() {
+        this.openedCards += 2;
         if (this.openedCards === 16) {
             this.endGame();
-        } else {
-            this.openedCards += 2;
-        }
+        } 
+    },
+    resetDeck: function() {
+        let newDeck = initialDeck.cloneNode(true);
+        deckContainer.appendChild(newDeck);
+        deckContainer.replaceChild(newDeck, deck);
+        deck = document.getElementsByClassName('deck')[0];        
     },
     resetGame: function() {
         this.inProgress = false,
         this.moves = this.openedCards = 0;
         pair.resetPair();
         watch.reset();
+        this.resetDeck();
     },
     endGame: function() {
         watch.stop();
-        
+
     }
 }
 
