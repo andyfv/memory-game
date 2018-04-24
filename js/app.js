@@ -1,19 +1,19 @@
-/*
- * Create a list that holds all of your cards
- */
 const stopwatch = document.getElementById('stopwatch');
-const btnStartAndRestart = document.getElementById("start-restart");
+const btnStartAndRestart = document.getElementById('start-restart');
 const btnStartAndRestartText = document.getElementById('start-text');
 const btnRestartSymbol = document.createElement('i');
 btnRestartSymbol.classList.add('fa', 'fa-repeat');
 const moveContainer = document.getElementById('move-container');
 const moves = document.getElementsByClassName('moves')[0];
-let virtualDeck = ['fa-diamond', 'fa-diamond', 'fa-leaf', 'fa-leaf', 'fa-paper-plane-o', 'fa-paper-plane-o', 'fa-anchor', 'fa-anchor',
-'fa-bolt', 'fa-bolt', 'fa-cube', 'fa-cube', 'fa-bicycle', 'fa-bicycle', 'fa-bomb', 'fa-bomb'];
 let deck = document.getElementsByClassName('deck')[0];
 const initialDeck = deck.cloneNode(true);
 const deckContainer = document.getElementsByClassName('container')[0];
+const modal = document.getElementById('modal');
+const modalContent = document.getElementById('modal-content');
 const watch  = new Stopwatch(stopwatch);
+const stars = document.getElementsByClassName('fa-star');
+let virtualDeck = ['fa-diamond', 'fa-diamond', 'fa-leaf', 'fa-leaf', 'fa-paper-plane-o', 'fa-paper-plane-o', 'fa-anchor', 'fa-anchor',
+        'fa-bolt', 'fa-bolt', 'fa-cube', 'fa-cube', 'fa-bicycle', 'fa-bicycle', 'fa-bomb', 'fa-bomb'];
 
 let pair = {
     firstCard: null,
@@ -36,21 +36,23 @@ let pair = {
         this.firstCard = this.secondCard = null;
     },
     flipPairUp: function(){
-        removeCardClasses([this.firstCard, this.secondCard], ["open", "show"]);
-        addCardClasses([this.firstCard, this.secondCard],["match"]);
+        removeCardClasses([this.firstCard, this.secondCard], ['open', 'show']);
+        addCardClasses([this.firstCard, this.secondCard],['match']);
         this.resetPair();
         game.increaseOpenedCards();
     },
     flipPairDown: function() {
-        removeCardClasses([this.firstCard ,this.secondCard], ["open", "show"]);
+        removeCardClasses([this.firstCard ,this.secondCard], ['open', 'show']);
         this.resetPair();
     }
 }
 
 let game = {
     inProgress: false,
-    moves: 0,
+    movesCount: 0,
     openedCards: 0,
+    countdown: 3,
+    starsCount: 3,
     pairHandler: function() {
         if(pair.areSymbolsEqual()){
             pair.flipPairUp();
@@ -64,18 +66,28 @@ let game = {
     },
     btnSwitchText: function() {
         if(!this.inProgress){
-            btnStartAndRestartText.innerText = "Restart";
+            btnStartAndRestartText.innerText = 'Restart';
             btnStartAndRestart.insertBefore(btnRestartSymbol,btnStartAndRestartText);
             this.inProgress = true;
         } else {
-            btnStartAndRestartText.innerText = "Start";
+            btnStartAndRestartText.innerText = 'Start';
             btnStartAndRestart.removeChild(btnRestartSymbol);
             this.inProgress = false;
         }
     },
     increaseMoves: function() {
-        this.moves++;
-        moves.innerText = this.moves;
+        this.movesCount++;
+        moves.innerText = this.movesCount;
+        if(this.movesCount > 25) {
+            stars[2].style.color = 'grey';
+            this.starsCount = 2;
+        } else if (this.movesCount > 35) {
+            stars[1].style.color = 'grey';
+            this.starsCount = 1;
+        } else if (this.movesCount > 45) {
+            stars[0].style.color = 'grey';
+            this.starsCount = 0;
+        } 
     },
     increaseOpenedCards: function() {
         this.openedCards += 2;
@@ -83,43 +95,65 @@ let game = {
             this.endGame();
         } 
     },
+    startCountdown: function() {
+        const timer = setInterval(function(){
+            if(game.countdown >= 0){
+                modal.style.display = 'inline-block';
+                modalContent.innerText = game.countdown;
+                game.countdown--;
+                console.log(game.countdown);
+            } else {
+                console.log(game.countdown);
+                clearInterval(timer);
+                modal.style.display = 'none';
+                deck.addEventListener('click', clickCard);
+                watch.start();
+            }
+        },750);
+        this.countdown = 3;
+    },
     resetDeck: function() {
         let newDeck = initialDeck.cloneNode(true);
         deckContainer.appendChild(newDeck);
         deckContainer.replaceChild(newDeck, deck);
         deck = document.getElementsByClassName('deck')[0];        
     },
+    resetStars: function() {
+        for(star of stars) {
+            star.style.color = 'limegreen';
+        }
+        this.starsCount = 3;
+    },
     resetGame: function() {
         this.inProgress = false,
-        this.moves = this.openedCards = 0;
+        this.movesCount = this.openedCards = 0;
         pair.resetPair();
         watch.reset();
         this.resetDeck();
+        this.resetStars();
+    },
+    startGame: function() {
+        this.resetGame();
+        shuffle(virtualDeck);
+        this.startCountdown();
+        this.btnSwitchText();
+    },
+    showCongratulation: function(){
+        document.getElementById('congratulations').style.display = 'flex';
+        document.getElementById('final-moves-count').innerText = this.movesCount;
+        document.getElementById('final-time').innerText = watch.returnTime();
+        document.getElementById('final-star-count').innerText = this.starsCount;
+        document.getElementById('restart').addEventListener('click', clickStartButton);
     },
     endGame: function() {
         watch.stop();
-
+        this.showCongratulation();
     }
 }
 
-let stats = {
-    moveCounter: 0,
-    Rating: 0,
-    startWatch: function() {
-        
-    }
-}
-
-
-
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
+/* 
+    Shuffles the @virtualDeck
  */
-
-// Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(virtualDeck) {
     let currentIndex = virtualDeck.length, temporaryValue, randomIndex;
 
@@ -132,21 +166,9 @@ function shuffle(virtualDeck) {
     }
 }
 
-
-
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
+/* 
+    Used to remove multiple classes from multiple cards
  */
-
-
 function removeCardClasses([...cards], [...classes]) {
     for (let card of cards) {
         for(let eachClass of classes) {
@@ -155,6 +177,9 @@ function removeCardClasses([...cards], [...classes]) {
     }
 }
 
+/* 
+    Used to add multiple classes to multiple cards
+ */
 function addCardClasses([...cards], [...classes]){
     for (let card of cards) {
         for(let eachClass of classes) {
@@ -163,27 +188,38 @@ function addCardClasses([...cards], [...classes]){
     }
 }
 
+
+/* 
+    Add the symbol by taking the symbol from the shuffled array
+    based on the @cardIndex and appending it to the @updatedCard
+ */
 function addSymbol(updatedCard, cardIndex){
     const symbolElement = document.createElement("i");
     symbolElement.classList.add("fa", virtualDeck[cardIndex]);
     updatedCard.appendChild(symbolElement);
 }
 
+/* 
+    Opens the card by the @card with the @updatedCard containing the symbol
+ */
 function showCard(card, updatedCard){
     deck.appendChild(updatedCard);
     deck.replaceChild(updatedCard, card);
 }
 
+/* 
+    Returns the symbol of a clicked card
+ */
 function returnSymbol(card) {
     return card.firstElementChild.className;
 }
 
 function progress(card){
     const cardIndex = getElementIndex(card);
-    const updatedCard = document.createElement("li");
-    updatedCard.classList.add("card");
+    const updatedCard = document.createElement('li');
+    updatedCard.classList.add('card');
     addSymbol(updatedCard, cardIndex);
-    addCardClasses([updatedCard], ["open", "show"]);
+    addCardClasses([updatedCard], ['open', 'show']);
     showCard(card, updatedCard);
     if(pair.isEmpty()){
         pair.firstCard = updatedCard;
@@ -195,8 +231,11 @@ function progress(card){
     }
 } 
 
+/* 
+    Check if the clicked is already open
+ */
 function isOpen(card){
-    if(card.classList.contains("open") || card.classList.contains("match")){
+    if(card.classList.contains('open') || card.classList.contains('match')){
         return true;
     } else {
         return false;
@@ -215,7 +254,7 @@ function getElementIndex(element){
  */
 function clickCard(e){
     e.stopPropagation();
-    if(e.target.classList.contains("card")){
+    if(e.target.classList.contains('card')){
         deck.removeEventListener('click', clickCard);
         let card = e.target;    
         if(isOpen(card)){
@@ -230,12 +269,10 @@ function clickCard(e){
 
 function clickStartButton(e) {
     e.stopPropagation();
-    game.resetGame();
-    shuffle(virtualDeck);
-    deck.addEventListener('click', clickCard);
-    //startCountdown(); //Implement!!!
-    watch.start();
-    game.btnSwitchText();
+    watch.stop();
+    document.getElementById('congratulations').style.display = 'none';
+    deck.removeEventListener('click', clickCard);
+    game.startGame();
 }
 
 btnStartAndRestart.addEventListener('click', clickStartButton);
