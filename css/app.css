@@ -117,12 +117,16 @@ h1 {
 
 #start-restart {
     float: right;
-    border-radius: 1rem;
-    border: 1px solid black;
+    border-radius: 0.4em;
+    border: 0;
     width: 18%;
     padding-top: 3px;
     font-weight: bold; 
     background-color: limegreen;
+}
+
+#start-restart:active {
+    background-color: darkred;
 }
 
 .fa-repeat {
@@ -147,4 +151,58 @@ h1 {
 
 .fa-star {
     color: limegreen;
+}
+
+#modal { 
+    background-color: rgb(211, 211, 211, 0.4);
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    display: none;
+    height: 15%;
+    width: 100%;
+    z-index: 1;
+    top: 25%;
+    left: 0;
+}
+
+#modal-content {
+    text-align: center;
+    font-size: 13vh;
+    margin: auto;
+    width: 50%;
+    color: ivory;
+}
+
+#congratulations {
+    background-color: rgba(155, 155, 155, 0.623);
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    display: none;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    top: 0;
+    left: 0;
+}
+
+#congratulations-content {
+    text-align: center;
+    margin-top: -40%;
+    width: 660px;
+    color: ivory;
+    border-radius: 1em;
+    background-color: goldenrod;
+    padding-bottom: 20px;
+}
+
+#restart {
+    border-radius: 0.4em;
+    width: 100px;
+    border: 0;
+    background-color: limegreen;
+    color: ivory;
+    font-size: 1.2em;
+    padding-top: 3px;
 }
