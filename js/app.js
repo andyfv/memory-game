@@ -19,6 +19,7 @@ let virtualDeck = ['fa-diamond', 'fa-diamond', 'fa-leaf', 'fa-leaf', 'fa-paper-p
 let pair = {
     firstCard: null,
     secondCard: null,
+
     /* 
         Check if the pair is EMPTY. If the @firstCard is 'null' then the pair is empty.
      */
@@ -29,6 +30,7 @@ let pair = {
             return false;
         }
     },
+
     /* 
         Check if both cards are equal by comparing their symbols.
      */
@@ -177,6 +179,7 @@ let game = {
         }
         this.starsCount = 3;
     },
+
     /* 
         Reseting everything needed for each game
      */
@@ -192,6 +195,7 @@ let game = {
         this.resetDeck();
         this.resetStars();
     },
+
     /* 
         Hadling the start of the game
      */
@@ -201,6 +205,7 @@ let game = {
         this.startCountdown();
         this.btnSwitchText();
     },
+
     /* 
         Opens the congratulation pop-up with statitics for the current game.
      */
