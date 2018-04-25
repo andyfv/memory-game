@@ -335,6 +335,7 @@ function clickCard(e) {
         deck.removeEventListener('click', clickCard);
         let card = e.target;
         if (isOpen(card)) {
+            deck.addEventListener('click', clickCard);
             return;
         } else {
             handleCard(card);
