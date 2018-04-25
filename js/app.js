@@ -78,10 +78,10 @@ let game = {
     increaseMoves: function() {
         this.movesCount++;
         moves.innerText = this.movesCount;
-        if(this.movesCount > 25) {
+        if(this.movesCount > 25 && this.movesCount <= 35) {
             stars[2].style.color = 'grey';
             this.starsCount = 2;
-        } else if (this.movesCount > 35) {
+        } else if (this.movesCount > 35 && this.movesCount <= 45) {
             stars[1].style.color = 'grey';
             this.starsCount = 1;
         } else if (this.movesCount > 45) {
@@ -125,8 +125,12 @@ let game = {
         this.starsCount = 3;
     },
     resetGame: function() {
+        watch.stop();
+        document.getElementById('congratulations').style.display = 'none';
+        deck.removeEventListener('click', clickCard);
         this.inProgress = false,
         this.movesCount = this.openedCards = 0;
+        moves.innerText = this.movesCount;
         pair.resetPair();
         watch.reset();
         this.resetDeck();
@@ -214,13 +218,14 @@ function returnSymbol(card) {
     return card.firstElementChild.className;
 }
 
-function progress(card){
+function handleCard(card){
     const cardIndex = getElementIndex(card);
     const updatedCard = document.createElement('li');
     updatedCard.classList.add('card');
     addSymbol(updatedCard, cardIndex);
     addCardClasses([updatedCard], ['open', 'show']);
     showCard(card, updatedCard);
+    game.increaseMoves();
     if(pair.isEmpty()){
         pair.firstCard = updatedCard;
         deck.addEventListener('click', clickCard);
@@ -258,20 +263,15 @@ function clickCard(e){
         deck.removeEventListener('click', clickCard);
         let card = e.target;    
         if(isOpen(card)){
-            deck.addEventListener('click', clickCard);
             return;
         } else {
-            progress(card);
+            handleCard(card);
         }
-        game.increaseMoves();
     }
 }
 
 function clickStartButton(e) {
     e.stopPropagation();
-    watch.stop();
-    document.getElementById('congratulations').style.display = 'none';
-    deck.removeEventListener('click', clickCard);
     game.startGame();
 }
 
