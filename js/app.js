@@ -120,15 +120,12 @@ let game = {
     increaseMoves: function () {
         this.movesCount++;
         moves.innerText = this.movesCount;
-        if (this.movesCount > 25  && this.movesCount <= 35) {
+        if (this.movesCount > 20 && this.movesCount <= 30) {
             stars[2].style.color = 'grey';
             this.starsCount = 2;
-        } else if (this.movesCount > 35 && this.movesCount <= 45) {
+        } else if (this.movesCount > 30) {
             stars[1].style.color = 'grey';
             this.starsCount = 1;
-        } else if (this.movesCount > 45) {
-            stars[0].style.color = 'grey';
-            this.starsCount = 0;
         }
     },
 
