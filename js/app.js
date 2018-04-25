@@ -297,13 +297,13 @@ function handleCard(card) {
     addSymbol(updatedCard, cardIndex);
     addCardClasses([updatedCard], ['open', 'show']);
     showCard(card, updatedCard);
-    game.increaseMoves();
     if (pair.isEmpty()) {
         pair.firstCard = updatedCard;
         deck.addEventListener('click', clickCard);
         return;
     } else {
         pair.secondCard = updatedCard;
+        game.increaseMoves();
         pair.pairHandler();
     }
 }
