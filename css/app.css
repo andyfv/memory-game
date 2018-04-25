@@ -159,6 +159,7 @@ h1 {
 }
 
 #modal {
+    background-color: rgb(211, 211, 211);
     background-color: rgb(211, 211, 211, 0.4);
     justify-content: center;
     align-items: center;
