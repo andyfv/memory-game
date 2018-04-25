@@ -51,7 +51,7 @@ let pair = {
      */
     flipPairUp: function(){
         removeCardClasses([this.firstCard, this.secondCard], ['open', 'show']);
-        addCardClasses([this.firstCard, this.secondCard],['match']);
+        addCardClasses([this.firstCard, this.secondCard], ['match']);
         this.resetPair();
         game.increaseOpenedCards();
     },
@@ -62,7 +62,7 @@ let pair = {
             - reset the Pair
       */
     flipPairDown: function() {
-        removeCardClasses([this.firstCard ,this.secondCard], ['open', 'show']);
+        removeCardClasses([this.firstCard ,this.secondCard], ['open', 'show', 'red']);
         this.resetPair();
     },
 
@@ -77,6 +77,7 @@ let pair = {
             pair.flipPairUp();
             deck.addEventListener('click', clickCard);
         } else {
+            addCardClasses([this.firstCard, this.secondCard],['red']);
             setTimeout(function () {
                 pair.flipPairDown();
                 deck.addEventListener('click', clickCard);
