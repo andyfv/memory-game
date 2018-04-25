@@ -18,6 +18,9 @@ let virtualDeck = ['fa-diamond', 'fa-diamond', 'fa-leaf', 'fa-leaf', 'fa-paper-p
 let pair = {
     firstCard: null,
     secondCard: null,
+    /* 
+        Check if the pair is EMPTY. If the @firstCard is 'null' then the pair is empty.
+     */
     isEmpty: function(){
         if(this.firstCard === null) {
             return true;
@@ -25,6 +28,9 @@ let pair = {
             return false;
         }
     },
+    /* 
+        Check if both cards are equal by comparing their symbols.
+     */
     areSymbolsEqual: function() {
         if(returnSymbol(this.firstCard) === returnSymbol(this.secondCard)){
             return true;
@@ -35,15 +41,47 @@ let pair = {
     resetPair: function() {
         this.firstCard = this.secondCard = null;
     },
+
+    /* 
+        Flip the pair UP by:
+            - removing 'open' and 'show' classes
+            - add 'match' class 
+            - reset the Pair
+            -increases the counter of opened cards. 
+     */
     flipPairUp: function(){
         removeCardClasses([this.firstCard, this.secondCard], ['open', 'show']);
         addCardClasses([this.firstCard, this.secondCard],['match']);
         this.resetPair();
         game.increaseOpenedCards();
     },
+
+    /*
+        Flip the pair DOWN by:
+            - removing 'open' and 'show' classes
+            - reset the Pair
+      */
     flipPairDown: function() {
         removeCardClasses([this.firstCard ,this.secondCard], ['open', 'show']);
         this.resetPair();
+    },
+
+    /* 
+        Handling the pair. 
+        If both clicked cards are equal - flipPairUP().
+        If they are different - flipPAirDown().
+        At the end, turn the eventListener back on.
+     */
+    pairHandler: function () {
+        if (pair.areSymbolsEqual()) {
+            pair.flipPairUp();
+            deck.addEventListener('click', clickCard);
+        } else {
+            setTimeout(function () {
+                pair.flipPairDown();
+                deck.addEventListener('click', clickCard);
+            }, 1000);
+        }
     }
 }
 
@@ -53,17 +91,12 @@ let game = {
     openedCards: 0,
     countdown: 3,
     starsCount: 3,
-    pairHandler: function() {
-        if(pair.areSymbolsEqual()){
-            pair.flipPairUp();
-            deck.addEventListener('click', clickCard);
-        } else {
-            setTimeout(function(){
-                pair.flipPairDown();
-                deck.addEventListener('click', clickCard);
-            },1000);
-        }
-    },
+
+    /* 
+        Switches the text of the button after the game has started. 
+        Text is changing from "Start" to "Restart". Removes the repeat/restart symbol 
+        if the current text is "Restart"
+     */
     btnSwitchText: function() {
         if(!this.inProgress){
             btnStartAndRestartText.innerText = 'Restart';
@@ -75,6 +108,11 @@ let game = {
             this.inProgress = false;
         }
     },
+
+    /* 
+        Increases @movesCount and update it on the HTML.
+        Changes the star rating based on the @movesCount.
+     */
     increaseMoves: function() {
         this.movesCount++;
         moves.innerText = this.movesCount;
@@ -89,12 +127,23 @@ let game = {
             this.starsCount = 0;
         } 
     },
+
+    /* 
+        Increases the @openCards, and if they are 16  invokes endGame();
+     */
     increaseOpenedCards: function() {
         this.openedCards += 2;
         if (this.openedCards === 16) {
             this.endGame();
         } 
     },
+
+    /* 
+        Countdown before each start of the game. 
+        The functions is invoked every 750 millisecconds until reaching 0 .
+        Hides the countdown modal after reaching 0 .
+        At the end reset the @countdown back to 3 .
+     */
     startCountdown: function() {
         const timer = setInterval(function(){
             if(game.countdown >= 0){
@@ -112,6 +161,10 @@ let game = {
         },750);
         this.countdown = 3;
     },
+
+    /* 
+        Resets the deck by replacing it with a copy of the original deck.
+     */
     resetDeck: function() {
         let newDeck = initialDeck.cloneNode(true);
         deckContainer.appendChild(newDeck);
@@ -124,6 +177,9 @@ let game = {
         }
         this.starsCount = 3;
     },
+    /* 
+        Reseting everything needed for each game
+     */
     resetGame: function() {
         watch.stop();
         document.getElementById('congratulations').style.display = 'none';
@@ -136,12 +192,18 @@ let game = {
         this.resetDeck();
         this.resetStars();
     },
+    /* 
+        Hadling the start of the game
+     */
     startGame: function() {
         this.resetGame();
         shuffle(virtualDeck);
         this.startCountdown();
         this.btnSwitchText();
     },
+    /* 
+        Opens the congratulation pop-up with statitics for the current game.
+     */
     showCongratulation: function(){
         document.getElementById('congratulations').style.display = 'flex';
         document.getElementById('final-moves-count').innerText = this.movesCount;
@@ -149,6 +211,10 @@ let game = {
         document.getElementById('final-star-count').innerText = this.starsCount;
         document.getElementById('restart').addEventListener('click', clickStartButton);
     },
+
+    /*
+        Ends the game by
+     */
     endGame: function() {
         watch.stop();
         this.showCongratulation();
@@ -204,7 +270,7 @@ function addSymbol(updatedCard, cardIndex){
 }
 
 /* 
-    Opens the card by the @card with the @updatedCard containing the symbol
+    Opens the card by replacing the old @card with the @updatedCard containing the symbol
  */
 function showCard(card, updatedCard){
     deck.appendChild(updatedCard);
@@ -212,7 +278,7 @@ function showCard(card, updatedCard){
 }
 
 /* 
-    Returns the symbol of a clicked card
+    Returns the symbol of a card
  */
 function returnSymbol(card) {
     return card.firstElementChild.className;
@@ -232,12 +298,12 @@ function handleCard(card){
         return;
     } else {
         pair.secondCard = updatedCard;
-        game.pairHandler();
+        pair.pairHandler();
     }
 } 
 
 /* 
-    Check if the clicked is already open
+    Check if the clicked card is already open
  */
 function isOpen(card){
     if(card.classList.contains('open') || card.classList.contains('match')){
@@ -248,14 +314,14 @@ function isOpen(card){
 }
 
 /* 
-    Used to return the index of each clicked card  
+    Returns the index number of each clicked card  
  */
 function getElementIndex(element){
     return [...element.parentNode.children].indexOf(element);
 }
 
 /* 
-    Used as the function in the Event Listener for the deck
+    EventListener for the deck.
  */
 function clickCard(e){
     e.stopPropagation();
