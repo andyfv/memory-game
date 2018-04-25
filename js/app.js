@@ -120,15 +120,12 @@ let game = {
     increaseMoves: function () {
         this.movesCount++;
         moves.innerText = this.movesCount;
-        if (this.movesCount > 25  && this.movesCount <= 35) {
+        if (this.movesCount > 20 && this.movesCount <= 30) {
             stars[2].style.color = 'grey';
             this.starsCount = 2;
-        } else if (this.movesCount > 35 && this.movesCount <= 45) {
+        } else if (this.movesCount > 30) {
             stars[1].style.color = 'grey';
             this.starsCount = 1;
-        } else if (this.movesCount > 45) {
-            stars[0].style.color = 'grey';
-            this.starsCount = 0;
         }
     },
 
@@ -297,13 +294,13 @@ function handleCard(card) {
     addSymbol(updatedCard, cardIndex);
     addCardClasses([updatedCard], ['open', 'show']);
     showCard(card, updatedCard);
-    game.increaseMoves();
     if (pair.isEmpty()) {
         pair.firstCard = updatedCard;
         deck.addEventListener('click', clickCard);
         return;
     } else {
         pair.secondCard = updatedCard;
+        game.increaseMoves();
         pair.pairHandler();
     }
 }
