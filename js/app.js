@@ -10,10 +10,11 @@ const initialDeck = deck.cloneNode(true);
 const deckContainer = document.getElementsByClassName('container')[0];
 const modal = document.getElementById('modal');
 const modalContent = document.getElementById('modal-content');
-const watch  = new Stopwatch(stopwatch);
+const watch = new Stopwatch(stopwatch);
 const stars = document.getElementsByClassName('fa-star');
 let virtualDeck = ['fa-diamond', 'fa-diamond', 'fa-leaf', 'fa-leaf', 'fa-paper-plane-o', 'fa-paper-plane-o', 'fa-anchor', 'fa-anchor',
-        'fa-bolt', 'fa-bolt', 'fa-cube', 'fa-cube', 'fa-bicycle', 'fa-bicycle', 'fa-bomb', 'fa-bomb'];
+    'fa-bolt', 'fa-bolt', 'fa-cube', 'fa-cube', 'fa-bicycle', 'fa-bicycle', 'fa-bomb', 'fa-bomb'
+];
 
 let pair = {
     firstCard: null,
@@ -21,8 +22,8 @@ let pair = {
     /* 
         Check if the pair is EMPTY. If the @firstCard is 'null' then the pair is empty.
      */
-    isEmpty: function(){
-        if(this.firstCard === null) {
+    isEmpty: function () {
+        if (this.firstCard === null) {
             return true;
         } else {
             return false;
@@ -31,14 +32,14 @@ let pair = {
     /* 
         Check if both cards are equal by comparing their symbols.
      */
-    areSymbolsEqual: function() {
-        if(returnSymbol(this.firstCard) === returnSymbol(this.secondCard)){
+    areSymbolsEqual: function () {
+        if (returnSymbol(this.firstCard) === returnSymbol(this.secondCard)) {
             return true;
         } else {
             return false;
         }
     },
-    resetPair: function() {
+    resetPair: function () {
         this.firstCard = this.secondCard = null;
     },
 
@@ -49,7 +50,7 @@ let pair = {
             - reset the Pair
             -increases the counter of opened cards. 
      */
-    flipPairUp: function(){
+    flipPairUp: function () {
         removeCardClasses([this.firstCard, this.secondCard], ['open', 'show']);
         addCardClasses([this.firstCard, this.secondCard], ['match']);
         this.resetPair();
@@ -61,8 +62,8 @@ let pair = {
             - removing 'open' and 'show' classes
             - reset the Pair
       */
-    flipPairDown: function() {
-        removeCardClasses([this.firstCard ,this.secondCard], ['open', 'show', 'red']);
+    flipPairDown: function () {
+        removeCardClasses([this.firstCard, this.secondCard], ['open', 'show', 'red']);
         this.resetPair();
     },
 
@@ -77,7 +78,7 @@ let pair = {
             pair.flipPairUp();
             deck.addEventListener('click', clickCard);
         } else {
-            addCardClasses([this.firstCard, this.secondCard],['red']);
+            addCardClasses([this.firstCard, this.secondCard], ['red']);
             setTimeout(function () {
                 pair.flipPairDown();
                 deck.addEventListener('click', clickCard);
@@ -98,10 +99,10 @@ let game = {
         Text is changing from "Start" to "Restart". Removes the repeat/restart symbol 
         if the current text is "Restart"
      */
-    btnSwitchText: function() {
-        if(!this.inProgress){
+    btnSwitchText: function () {
+        if (!this.inProgress) {
             btnStartAndRestartText.innerText = 'Restart';
-            btnStartAndRestart.insertBefore(btnRestartSymbol,btnStartAndRestartText);
+            btnStartAndRestart.insertBefore(btnRestartSymbol, btnStartAndRestartText);
             this.inProgress = true;
         } else {
             btnStartAndRestartText.innerText = 'Start';
@@ -114,10 +115,10 @@ let game = {
         Increases @movesCount and update it on the HTML.
         Changes the star rating based on the @movesCount.
      */
-    increaseMoves: function() {
+    increaseMoves: function () {
         this.movesCount++;
         moves.innerText = this.movesCount;
-        if(this.movesCount > 25 && this.movesCount <= 35) {
+        if (this.movesCount > 25  && this.movesCount <= 35) {
             stars[2].style.color = 'grey';
             this.starsCount = 2;
         } else if (this.movesCount > 35 && this.movesCount <= 45) {
@@ -126,17 +127,17 @@ let game = {
         } else if (this.movesCount > 45) {
             stars[0].style.color = 'grey';
             this.starsCount = 0;
-        } 
+        }
     },
 
     /* 
         Increases the @openCards, and if they are 16  invokes endGame();
      */
-    increaseOpenedCards: function() {
+    increaseOpenedCards: function () {
         this.openedCards += 2;
         if (this.openedCards === 16) {
             this.endGame();
-        } 
+        }
     },
 
     /* 
@@ -145,35 +146,33 @@ let game = {
         Hides the countdown modal after reaching 0 .
         At the end reset the @countdown back to 3 .
      */
-    startCountdown: function() {
-        const timer = setInterval(function(){
-            if(game.countdown >= 0){
+    startCountdown: function () {
+        const timer = setInterval(function () {
+            if (game.countdown >= 0) {
                 modal.style.display = 'inline-block';
                 modalContent.innerText = game.countdown;
                 game.countdown--;
-                console.log(game.countdown);
             } else {
-                console.log(game.countdown);
                 clearInterval(timer);
                 modal.style.display = 'none';
                 deck.addEventListener('click', clickCard);
                 watch.start();
             }
-        },750);
+        }, 750);
         this.countdown = 3;
     },
 
     /* 
         Resets the deck by replacing it with a copy of the original deck.
      */
-    resetDeck: function() {
+    resetDeck: function () {
         let newDeck = initialDeck.cloneNode(true);
         deckContainer.appendChild(newDeck);
         deckContainer.replaceChild(newDeck, deck);
-        deck = document.getElementsByClassName('deck')[0];        
+        deck = document.getElementsByClassName('deck')[0];
     },
-    resetStars: function() {
-        for(star of stars) {
+    resetStars: function () {
+        for (star of stars) {
             star.style.color = 'limegreen';
         }
         this.starsCount = 3;
@@ -181,12 +180,12 @@ let game = {
     /* 
         Reseting everything needed for each game
      */
-    resetGame: function() {
+    resetGame: function () {
         watch.stop();
         document.getElementById('congratulations').style.display = 'none';
         deck.removeEventListener('click', clickCard);
         this.inProgress = false,
-        this.movesCount = this.openedCards = 0;
+            this.movesCount = this.openedCards = 0;
         moves.innerText = this.movesCount;
         pair.resetPair();
         watch.reset();
@@ -196,7 +195,7 @@ let game = {
     /* 
         Hadling the start of the game
      */
-    startGame: function() {
+    startGame: function () {
         this.resetGame();
         shuffle(virtualDeck);
         this.startCountdown();
@@ -205,7 +204,7 @@ let game = {
     /* 
         Opens the congratulation pop-up with statitics for the current game.
      */
-    showCongratulation: function(){
+    showCongratulation: function () {
         document.getElementById('congratulations').style.display = 'flex';
         document.getElementById('final-moves-count').innerText = this.movesCount;
         document.getElementById('final-time').innerText = watch.returnTime();
@@ -216,7 +215,7 @@ let game = {
     /*
         Ends the game by
      */
-    endGame: function() {
+    endGame: function () {
         watch.stop();
         this.showCongratulation();
     }
@@ -226,7 +225,8 @@ let game = {
     Shuffles the @virtualDeck
  */
 function shuffle(virtualDeck) {
-    let currentIndex = virtualDeck.length, temporaryValue, randomIndex;
+    let currentIndex = virtualDeck.length,
+        temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
@@ -242,7 +242,7 @@ function shuffle(virtualDeck) {
  */
 function removeCardClasses([...cards], [...classes]) {
     for (let card of cards) {
-        for(let eachClass of classes) {
+        for (let eachClass of classes) {
             card.classList.remove(eachClass);
         }
     }
@@ -251,9 +251,9 @@ function removeCardClasses([...cards], [...classes]) {
 /* 
     Used to add multiple classes to multiple cards
  */
-function addCardClasses([...cards], [...classes]){
+function addCardClasses([...cards], [...classes]) {
     for (let card of cards) {
-        for(let eachClass of classes) {
+        for (let eachClass of classes) {
             card.classList.add(eachClass);
         }
     }
@@ -264,7 +264,7 @@ function addCardClasses([...cards], [...classes]){
     Add the symbol by taking the symbol from the shuffled array
     based on the @cardIndex and appending it to the @updatedCard
  */
-function addSymbol(updatedCard, cardIndex){
+function addSymbol(updatedCard, cardIndex) {
     const symbolElement = document.createElement("i");
     symbolElement.classList.add("fa", virtualDeck[cardIndex]);
     updatedCard.appendChild(symbolElement);
@@ -273,7 +273,7 @@ function addSymbol(updatedCard, cardIndex){
 /* 
     Opens the card by replacing the old @card with the @updatedCard containing the symbol
  */
-function showCard(card, updatedCard){
+function showCard(card, updatedCard) {
     deck.appendChild(updatedCard);
     deck.replaceChild(updatedCard, card);
 }
@@ -285,7 +285,7 @@ function returnSymbol(card) {
     return card.firstElementChild.className;
 }
 
-function handleCard(card){
+function handleCard(card) {
     const cardIndex = getElementIndex(card);
     const updatedCard = document.createElement('li');
     updatedCard.classList.add('card');
@@ -293,7 +293,7 @@ function handleCard(card){
     addCardClasses([updatedCard], ['open', 'show']);
     showCard(card, updatedCard);
     game.increaseMoves();
-    if(pair.isEmpty()){
+    if (pair.isEmpty()) {
         pair.firstCard = updatedCard;
         deck.addEventListener('click', clickCard);
         return;
@@ -301,13 +301,13 @@ function handleCard(card){
         pair.secondCard = updatedCard;
         pair.pairHandler();
     }
-} 
+}
 
 /* 
     Check if the clicked card is already open
  */
-function isOpen(card){
-    if(card.classList.contains('open') || card.classList.contains('match')){
+function isOpen(card) {
+    if (card.classList.contains('open') || card.classList.contains('match')) {
         return true;
     } else {
         return false;
@@ -317,19 +317,19 @@ function isOpen(card){
 /* 
     Returns the index number of each clicked card  
  */
-function getElementIndex(element){
+function getElementIndex(element) {
     return [...element.parentNode.children].indexOf(element);
 }
 
 /* 
     EventListener for the deck.
  */
-function clickCard(e){
+function clickCard(e) {
     e.stopPropagation();
-    if(e.target.classList.contains('card')){
+    if (e.target.classList.contains('card')) {
         deck.removeEventListener('click', clickCard);
-        let card = e.target;    
-        if(isOpen(card)){
+        let card = e.target;
+        if (isOpen(card)) {
             return;
         } else {
             handleCard(card);

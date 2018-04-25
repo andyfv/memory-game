@@ -3,13 +3,13 @@ function Stopwatch(elem) {
     let interval, offset, formattedTime;
     this.isOn = false;
 
-    function update(){
+    function update() {
         time += delta();
-        formattedTime  = timeFormatter(time);
+        formattedTime = timeFormatter(time);
         elem.textContent = formattedTime;
     };
 
-    function delta(){
+    function delta() {
         let now = Date.now();
         let timePassed = now - offset;
         offset = now;
@@ -20,7 +20,7 @@ function Stopwatch(elem) {
         return ('00' + t).substr(-2);
     }
 
-    function timeFormatter(timeInMilliseconds){
+    function timeFormatter(timeInMilliseconds) {
         let time = new Date(timeInMilliseconds);
         let minutes = pad(time.getMinutes());
         let seconds = pad(time.getSeconds());
@@ -28,27 +28,27 @@ function Stopwatch(elem) {
         return minutes + ":" + seconds + ":" + milliseconds;
     };
 
-    this.returnTime = function() {
+    this.returnTime = function () {
         return formattedTime;
     }
 
-    this.start = function() {
-        if(!this.isOn) {
+    this.start = function () {
+        if (!this.isOn) {
             interval = setInterval(update, 1);
             offset = Date.now();
             this.isOn = true;
         }
     };
 
-    this.stop = function() {
-        if(this.isOn){
+    this.stop = function () {
+        if (this.isOn) {
             clearInterval(interval);
             interval = null;
             this.isOn = false;
         }
     };
 
-    this.reset = function() {
+    this.reset = function () {
         time = 0;
     };
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <title>Matching Game</title>
@@ -9,6 +10,7 @@
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/app.css">
 </head>
+
 <body>
 
     <div class="container">
@@ -17,11 +19,17 @@
         </header>
 
         <section class="score-panel">
-        	<ul class="stars">
-        		<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>
-        	</ul>
+            <ul class="stars">
+                <li>
+                    <i class="fa fa-star"></i>
+                </li>
+                <li>
+                    <i class="fa fa-star"></i>
+                </li>
+                <li>
+                    <i class="fa fa-star"></i>
+                </li>
+            </ul>
             <div class="move-container">
                 <span>Moves:</span>
                 <span class="moves">0</span>
@@ -32,7 +40,7 @@
             </div>
             <button id="start-restart">
                 <span id="start-text">Start</span>
-        	</button>
+            </button>
         </section>
 
         <ul class="deck">
@@ -60,10 +68,12 @@
 
         <div id="congratulations">
             <div id="congratulations-content">
-                <h1>Congratulations! You  won!</h1>
-                <p>You have won with <span id="final-moves-count"></span> moves 
-                    and time of <span id="final-time"></span>.</p>
-                <p>Your have <span id="final-star-count"></span> stars</p>
+                <h1>Congratulations! You won!</h1>
+                <p>You have won with
+                    <span id="final-moves-count"></span> moves and time of
+                    <span id="final-time"></span>.</p>
+                <p>Your have
+                    <span id="final-star-count"></span> stars</p>
                 <button id="restart">Restart</button>
             </div>
         </div>
@@ -71,4 +81,5 @@
     <script src="js/stopwatch.js"></script>
     <script src="js/app.js"></script>
 </body>
+
 </html>
