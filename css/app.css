@@ -81,6 +81,10 @@ h1 {
     font-size: 33px;
 }
 
+.deck .card.red {
+    background-color: tomato !important;
+}
+
 /*
  * Styles for the Score Panel
  */
@@ -175,7 +179,7 @@ h1 {
 }
 
 #congratulations {
-    background-color: rgba(155, 155, 155, 0.623);
+    background-color: rgba(155, 155, 155, 0.548);
     justify-content: center;
     align-items: center;
     position: fixed;
@@ -190,7 +194,7 @@ h1 {
 #congratulations-content {
     text-align: center;
     margin-top: -40%;
-    width: 660px;
+    width: 600px;
     color: ivory;
     border-radius: 1em;
     background-color: goldenrod;
@@ -198,6 +202,7 @@ h1 {
 }
 
 #restart {
+    cursor: pointer;
     border-radius: 0.4em;
     width: 100px;
     border: 0;
@@ -206,3 +211,4 @@ h1 {
     font-size: 1.2em;
     padding-top: 3px;
 }
+
