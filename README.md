@@ -38,8 +38,8 @@ The player can turn over two cards at a time, with the goal of turning over a ma
 
 ## Play online
 
-    You can play online here:
-    [link](https://andyfv.github.io/memory-game/)
+You can play online here:
+[link](https://andyfv.github.io/memory-game/)
 
 ***
 
